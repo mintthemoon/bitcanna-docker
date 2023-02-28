@@ -1,11 +1,11 @@
 FROM golang:1.18.5-bullseye AS build
-ARG bcnad_version=v1.5.3
+ARG tag_version=v1.5.3
 
 WORKDIR /build
 RUN git clone \
         -c advice.detachedHead=false \
         --single-branch \
-        --branch ${bcnad_version} \
+        --branch ${tag_version} \
         --depth 1 \
         https://github.com/BitCannaGlobal/bcna.git \
         . \
