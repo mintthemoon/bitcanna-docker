@@ -9,7 +9,7 @@ on:
       version:
         description: tag version
         required: true
-        default: v1.5.3
+        default: v1.6.0-fix
 jobs:
   build:
     runs-on: ubuntu-latest
