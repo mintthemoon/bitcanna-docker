@@ -19,10 +19,11 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: buildNewTags
       run: |
+        skip_tags="v.1.3.0-rc2 v2.0.0-alpha v2.0.0-beta v2.0.1-alpha v2.0.1-beta v2.0.1-rc1 v2.0.1-rc2 v2.0.1-rc3 v2.0.1-rc4 v2.0.1-rc5"
         token=$(curl -su ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} https://ghcr.io/token\?scope\="repository:${{ github.repository }}:pull" | jq -r .token)
         docker_tags=$(curl -sH "Authorization: Bearer $token" https://ghcr.io/v2/${{ github.repository }}/tags/list | jq -r 'try(.tags[])')
         binary_tags=$(git ls-remote --tags https://github.com/BitcannaGlobal/bcna | awk '{print $2}' | cut -d/ -f3 | tr '\n' ' ')
-        new_tags=($(echo $docker_tags $docker_tags $binary_tags | tr ' ' '\n' | sort | uniq -u))
+        new_tags=($(echo $skip_tags $skip_tags $docker_tags $docker_tags $binary_tags | tr ' ' '\n' | sort | uniq -u))
         echo ${new_tags[@]}
         for tag in ${new_tags[@]}
         do
